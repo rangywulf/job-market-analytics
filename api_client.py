@@ -147,6 +147,20 @@ def main():
         # Initialize client
         client = JSearchClient()
         print("✓ API credentials loaded successfully\n")
+
+        # Search for data analytics jobs across multiple US locations
+        locations = [
+            'United States',
+            'New York',
+            'San Francisco',
+            'Chicago',
+            'Austin',
+            'Seattle',
+            'Boston',
+            'Denver',
+            'Atlanta',
+            'Los Angeles'
+        ]
         
         # Search for multiple data analytics job titles
         search_queries = [
@@ -159,11 +173,14 @@ def main():
         
         all_jobs = []
         
-        for query in search_queries:
-            print(f"\nSearching for '{query}' jobs...")
-            jobs = client.search_jobs(query=query, num_pages=5)
-            all_jobs.extend(jobs)
-            print(f"  Running total: {len(all_jobs)} jobs\n")
+        # Search each location with selected job titles
+        for location in locations:
+            for title in search_queries:
+                search_query = f"{title} {location}"
+                print(f"\nSearching for '{search_query}'...")
+                jobs = client.search_jobs(query=search_query, num_pages=2)
+                all_jobs.extend(jobs)
+                print(f"  Found {len(jobs)} jobs | Running total: {len(all_jobs)}\n")
         
         # Print results
         print(f"\n{'='*80}")
